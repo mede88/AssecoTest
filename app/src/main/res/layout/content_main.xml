@@ -54,7 +54,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="28dp"
-        android:layout_toStartOf="@+id/getPageButton" />
+        android:layout_toStartOf="@+id/tvUrlValue"
+        android:layout_toLeftOf="@+id/tvUrlValue" />
 
     <TextView
         android:layout_width="wrap_content"

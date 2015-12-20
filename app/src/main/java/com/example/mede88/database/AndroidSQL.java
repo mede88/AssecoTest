@@ -75,13 +75,13 @@ public class AndroidSQL {
             return ourDatabase.insert(DATABASE_TABLE, null, cv);
         }
 
-        public UrlDataObj getSqlData(String hash) {
+        public UrlDataObj getSqlData(String url) {
             // TODO Auto-generated method stub
             String[] columns = new String[]{ KEY_HASH, KEY_URL, KEY_LOCATION};
-            Cursor c = ourDatabase.query(DATABASE_TABLE, columns,  KEY_HASH + "=" + "\"" + hash + "\"", null, null, null, null);
+            Cursor c = ourDatabase.query(DATABASE_TABLE, columns,  KEY_URL + "=" + "\"" + url + "\"", null, null, null, null);
             if (c != null && c.getCount()>0){
                 c.moveToFirst();
-                UrlDataObj udo = new UrlDataObj(c.getString(0), c.getString(1), UrlDataObj.LocationType.DATABASE);
+                UrlDataObj udo = new UrlDataObj(c.getString(1), c.getString(0), UrlDataObj.LocationType.DATABASE);
                 return udo;
             }
             return null;
@@ -89,11 +89,12 @@ public class AndroidSQL {
 
         public boolean ifUrlIsInDatabase(String url) throws SQLException{
             // TODO Auto-generated method stub
+            boolean resp = false;
             String[] columns = new String[]{ KEY_HASH, KEY_URL, KEY_LOCATION};
             Cursor c = ourDatabase.query(DATABASE_TABLE, columns, KEY_URL + "=" + "\"" + url + "\"", null, null, null, null);
             if (c != null && c.getCount()>0){
-                return true;
+                resp = true;
             }
-            return false;
+            return resp;
         }
 }

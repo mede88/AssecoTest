@@ -37,9 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvUrl, tvHash, tvLocation, tvUrlValue, tvHashValue, tvLocationValue;
     private final static int DISABLE_BT_TIME = 5000;
     private UrlDataObj urlDataObj;
-    public static String filename = "MyPREFERENCES";
-    SharedPreferences someData;
-    AndroidSQL aSQL;
+    public static String sharedPreferencesFilename = "MyPREFERENCES";
+    SharedPreferences sharedPreferences;
     private OkHttpClient client;
 
 
@@ -48,30 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
-
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        strUrl = url.getText().toString();
-
-        //if url is correct
-        if (Utils.checkUrlRegEx(strUrl)) {
-            if (ExecuteSql.ifUrlIsInDatabaseExecute(this, strUrl)) {
-                //ExecuteSql.getSqlDataExecute();
-            } else {
-                getWebContent(strUrl);
-
-            }
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Incorrect URL format.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public String getStrUrl() {
-        return strUrl;
+        sharedPreferences = getSharedPreferences(getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
     }
 
     private void initWidgets() {
@@ -84,6 +60,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvUrlValue = (TextView) findViewById(R.id.tvUrlValue);
         tvHashValue = (TextView) findViewById(R.id.tvHashValue);
         tvLocationValue = (TextView) findViewById(R.id.tvLocationValue);
+    }
+
+    @Override
+    public void onClick(View v) {
+        strUrl = url.getText().toString();
+
+        //if url is correct
+        if (Utils.checkUrlRegEx(strUrl)) {
+            if (ExecuteSql.ifUrlIsInDatabaseExecute(this, strUrl)) {
+                urlDataObj = ExecuteSql.getSqlDataExecute(this, strUrl);
+                displayUrlData(urlDataObj);
+                disableButton();
+            }
+            else if(sharedPreferences.contains(strUrl)){
+                urlDataObj = new UrlDataObj(strUrl,sharedPreferences.getString(strUrl,""), UrlDataObj.LocationType.SHAREDPREFERENCES);
+                displayUrlData(urlDataObj);
+                disableButton();
+            }
+            else {
+                getWebContent(strUrl);
+            }
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Incorrect URL format.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void getWebContent(final String url) {
@@ -100,11 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }).start();
-
     }
 
     private void manageHash(Response response) {
@@ -116,42 +114,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         if (sHashValue != null) {
-            ExecuteSql.insertDataToDatabaseExecute(this, sHashValue, strUrl, UrlDataObj.LocationType.DATABASE);
-        }
-        // IF hash already exists in database or SharedPreferences
-       /* if((urlDataObj = Utils.urlIsUsed(MainActivity.this, sHashValue))!=null) {
-            Thread th =  new Thread(){
-                @Override
-                public void run(){
-                    try {
-                        synchronized(this){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                            displayUrlData(urlDataObj);
-                                }
-                            });
-                            gpButton.setEnabled(false);
-                            wait(DISABLE_BT_TIME);
-                        }
-                    }
-                    catch(InterruptedException ex){
-                        ex.printStackTrace();
-                    }
-                    gpButton.setEnabled(true);
-                }
-            };
-            th.start();
-    }*/
-        // hash code doesn't exist in database or SharedPreferences
-        else {
-            // if first byte of hash code is even number store it to a database
             if ((Utils.firstHashByte(sHashValue) % 2) == 0) {
+                ExecuteSql.insertDataToDatabaseExecute(this, sHashValue, strUrl, UrlDataObj.LocationType.DATABASE);
                 urlDataObj = new UrlDataObj(strUrl, sHashValue, UrlDataObj.LocationType.DATABASE);
             }
-            // first byte of hash code is odd number store it to a SharedPreferences
             else {
                 urlDataObj = new UrlDataObj(strUrl, sHashValue, UrlDataObj.LocationType.SHAREDPREFERENCES);
+                sharedPreferences.edit().putString(strUrl, sHashValue).commit();
             }
             runOnUiThread(new Runnable() {
                 @Override
@@ -162,11 +131,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void displayUrlData(UrlDataObj urlDataObj) {
         tvUrlValue.setText(urlDataObj.getUrl());
         tvHashValue.setText(urlDataObj.getHash());
         tvLocationValue.setText(urlDataObj.getLocationType().toString());
+    }
+
+    private void disableButton(){
+        Thread th =  new Thread(){
+            @Override
+            public void run(){
+                try {
+                    synchronized(this){
+
+                        wait(DISABLE_BT_TIME);
+                    }
+                }
+                catch(InterruptedException ex){
+                    ex.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gpButton.setEnabled(true);
+                    }
+                });
+            }
+        };
+        gpButton.setEnabled(false);
+        th.start();
     }
 
 }

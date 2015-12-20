@@ -17,11 +17,11 @@ public class ExecuteSql  {
         entry.close();
     }
 
-    public static UrlDataObj getSqlDataExecute(Context context, String hash) {
+    public static UrlDataObj getSqlDataExecute(Context context, String url) {
         UrlDataObj udo = null;
         AndroidSQL entry = new AndroidSQL(context);
         entry.open();
-        udo = entry.getSqlData(hash);
+        udo = entry.getSqlData(url);
         entry.close();
         return udo;
     }

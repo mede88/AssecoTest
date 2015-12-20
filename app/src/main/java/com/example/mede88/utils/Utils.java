@@ -28,23 +28,6 @@ public class Utils {
         }
     }
 
-    public static UrlDataObj urlIsUsed(Context context, String hash){
-        UrlDataObj urlDataObj;
-        //urlDataObj = checkSharedPreferences(hash);
-        //if (urlDataObj == null) {
-            urlDataObj = checkDB(context, hash);
-       // }
-        return urlDataObj;
-    }
-
-
-
-    public static UrlDataObj checkSharedPreferences(String url){
-        UrlDataObj obj = null;
-
-        return obj;
-    }
-
     public static UrlDataObj checkDB(Context context, String hash){
         UrlDataObj obj = null;
         ExecuteSql es = new ExecuteSql();
