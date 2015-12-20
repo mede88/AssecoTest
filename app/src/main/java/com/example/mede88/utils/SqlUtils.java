@@ -1,14 +1,15 @@
-package com.example.mede88.database;
+package com.example.mede88.utils;
 
 import android.app.Activity;
 import android.content.Context;
 
 import com.example.mede88.data.UrlDataObj;
+import com.example.mede88.database.AndroidSQL;
 
 /**
  * Created by mede88 on 12/20/15.
  */
-public class ExecuteSql  {
+public class SqlUtils {
 
     public static void insertDataToDatabaseExecute(Context context, String hash, String url, UrlDataObj.LocationType location) {
         AndroidSQL entry = new AndroidSQL(context);

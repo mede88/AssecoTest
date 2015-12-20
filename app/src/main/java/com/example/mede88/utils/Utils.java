@@ -1,15 +1,10 @@
 package com.example.mede88.utils;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.TextView;
 
 import com.example.mede88.data.UrlDataObj;
-import com.example.mede88.database.ExecuteSql;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -30,7 +25,7 @@ public class Utils {
 
     public static UrlDataObj checkDB(Context context, String hash){
         UrlDataObj obj = null;
-        ExecuteSql es = new ExecuteSql();
+        SqlUtils es = new SqlUtils();
 //        obj = es.selectRawSQL(context, hash);
         return obj;
     }

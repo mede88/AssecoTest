@@ -4,26 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.mede88.data.UrlDataObj;
-import com.example.mede88.database.AndroidSQL;
-import com.example.mede88.database.ExecuteSql;
+import com.example.mede88.utils.SqlUtils;
 import com.example.mede88.utils.Utils;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -68,17 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //if url is correct
         if (Utils.checkUrlRegEx(strUrl)) {
-            if (ExecuteSql.ifUrlIsInDatabaseExecute(this, strUrl)) {
-                urlDataObj = ExecuteSql.getSqlDataExecute(this, strUrl);
+            if (SqlUtils.ifUrlIsInDatabaseExecute(this, strUrl)) {
+                urlDataObj = SqlUtils.getSqlDataExecute(this, strUrl);
                 displayUrlData(urlDataObj);
                 disableButton();
-            }
-            else if(sharedPreferences.contains(strUrl)){
-                urlDataObj = new UrlDataObj(strUrl,sharedPreferences.getString(strUrl,""), UrlDataObj.LocationType.SHAREDPREFERENCES);
+            } else if (sharedPreferences.contains(strUrl)) {
+                urlDataObj = new UrlDataObj(strUrl, sharedPreferences.getString(strUrl, ""), UrlDataObj.LocationType.SHAREDPREFERENCES);
                 displayUrlData(urlDataObj);
                 disableButton();
-            }
-            else {
+            } else {
                 getWebContent(strUrl);
             }
 
@@ -115,10 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (sHashValue != null) {
             if ((Utils.firstHashByte(sHashValue) % 2) == 0) {
-                ExecuteSql.insertDataToDatabaseExecute(this, sHashValue, strUrl, UrlDataObj.LocationType.DATABASE);
+                SqlUtils.insertDataToDatabaseExecute(this, sHashValue, strUrl, UrlDataObj.LocationType.DATABASE);
                 urlDataObj = new UrlDataObj(strUrl, sHashValue, UrlDataObj.LocationType.DATABASE);
-            }
-            else {
+            } else {
                 urlDataObj = new UrlDataObj(strUrl, sHashValue, UrlDataObj.LocationType.SHAREDPREFERENCES);
                 sharedPreferences.edit().putString(strUrl, sHashValue).commit();
             }
@@ -137,17 +128,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvLocationValue.setText(urlDataObj.getLocationType().toString());
     }
 
-    private void disableButton(){
-        Thread th =  new Thread(){
+    private void disableButton() {
+        Thread th = new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 try {
-                    synchronized(this){
+                    synchronized (this) {
 
                         wait(DISABLE_BT_TIME);
                     }
-                }
-                catch(InterruptedException ex){
+                } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
