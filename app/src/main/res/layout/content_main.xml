@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#72a0fd"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.mede88.myapplication1.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:focusable="false">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/url"
+        android:hint="http://www.google.com"
+        android:gravity="fill_horizontal"
+        android:maxLength="500"
+        android:maxLines="1"
+        android:text="@string/initText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="59dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="53dp"
+        android:layout_marginEnd="53dp"
+        android:text="@string/getPageButton"
+        android:id="@+id/getPageButton"
+        android:textColor="#154afa"
+        android:background="#bfc202"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/url"
+        android:layout_alignRight="@+id/url"
+        android:layout_alignEnd="@+id/url" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sUrl"
+        android:id="@+id/tvUrl"
+        android:layout_below="@+id/getPageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp"
+        android:layout_toStartOf="@+id/getPageButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sHash"
+        android:id="@+id/tvHash"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sLocation"
+        android:id="@+id/tvLocation"
+        android:layout_marginTop="38dp"
+        android:layout_below="@+id/tvHash"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sUrlValue"
+        android:id="@+id/tvUrlValue"
+        android:layout_alignBottom="@+id/tvUrl"
+        android:layout_toRightOf="@+id/tvLocation"
+        android:layout_alignRight="@+id/tvHashValue"
+        android:layout_alignEnd="@+id/tvHashValue"
+        android:layout_alignTop="@+id/tvUrl" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sHashValue"
+        android:id="@+id/tvHashValue"
+        android:layout_toRightOf="@+id/tvLocation"
+        android:layout_alignRight="@+id/getPageButton"
+        android:layout_alignEnd="@+id/getPageButton"
+        android:layout_alignTop="@+id/tvHash" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sLocationValue"
+        android:id="@+id/tvLocationValue"
+        android:layout_alignTop="@+id/tvLocation"
+        android:layout_alignRight="@+id/getPageButton"
+        android:layout_alignEnd="@+id/getPageButton"
+        android:layout_alignBottom="@+id/tvLocation"
+        android:layout_toRightOf="@+id/tvLocation"
+        android:layout_toEndOf="@+id/tvLocation" />
+
+</RelativeLayout>
