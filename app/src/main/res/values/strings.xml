@@ -2,7 +2,7 @@
     <string name="app_name">MyApplication1</string>
     <string name="action_settings">Settings</string>
 
-    <string name="initText">http://www.google.com</string>
+    <string name="initText">http://</string>
     <string name="getPageButton">GET PAGE</string>
 
     <string name="sUrl">Url:</string>

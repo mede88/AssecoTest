@@ -1,13 +1,10 @@
 package com.example.mede88.utils;
 
 import android.content.Context;
-
 import com.example.mede88.data.UrlDataObj;
 import com.example.mede88.database.AndroidSQL;
 
-/**
- * Created by mede88 on 12/20/15.
- */
+
 public class SqlUtils {
 
     public static void insertDataToDatabaseExecute(Context context, String hash, String url, UrlDataObj.LocationType location) {

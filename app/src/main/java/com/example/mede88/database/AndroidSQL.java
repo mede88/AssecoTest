@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.mede88.data.UrlDataObj;
 
-/**
- * Created by mede88 on 12/20/15.
- */
+
 public class AndroidSQL {
 
 
