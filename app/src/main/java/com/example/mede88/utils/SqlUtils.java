@@ -1,6 +1,5 @@
 package com.example.mede88.utils;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.example.mede88.data.UrlDataObj;

@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvUrl, tvHash, tvLocation, tvUrlValue, tvHashValue, tvLocationValue;
     private final static int DISABLE_BT_TIME = 5000;
     private UrlDataObj urlDataObj;
-    public static String sharedPreferencesFilename = "MyPREFERENCES";
     SharedPreferences sharedPreferences;
     private OkHttpClient client;
 

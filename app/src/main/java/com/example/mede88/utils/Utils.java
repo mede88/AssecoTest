@@ -1,9 +1,5 @@
 package com.example.mede88.utils;
 
-import android.content.Context;
-
-import com.example.mede88.data.UrlDataObj;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,8 +8,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utils {
 
-    public static String filename = "MyPREFERENCES";
-
     public static boolean checkUrlRegEx(String url){
         if(url.matches("^((http(s)?://))(\\w+\\.\\w+)(\\.\\w+)?")){
             return true;
@@ -21,13 +15,6 @@ public class Utils {
         else {
             return false;
         }
-    }
-
-    public static UrlDataObj checkDB(Context context, String hash){
-        UrlDataObj obj = null;
-        SqlUtils es = new SqlUtils();
-//        obj = es.selectRawSQL(context, hash);
-        return obj;
     }
 
     //returns a first byte of a hash string
@@ -56,7 +43,5 @@ public class Utils {
             }
             return hexStr;
         }
-
-
 }
 
